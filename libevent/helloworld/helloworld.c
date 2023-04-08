@@ -16,10 +16,12 @@ void timeout_cb(int fd,short event,void* argc)
 
 int main()
 {
+    /* 初始化reactor */
     struct event_base* base=event_init();
+    /* 新建一个信号事件 */
     struct event* signal_event=evsignal_new(base,SIGINT,signal_cb,base);
     event_add(signal_event,NULL);
-
+    /* 新建一个定时器事件 */
     struct timeval tv={1,0};
     struct event* timeout_event=evtimer_new(base,timeout_cb,NULL);
     event_add(timeout_event,&tv);
